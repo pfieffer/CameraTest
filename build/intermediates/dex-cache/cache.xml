@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        is-multidex="true"
+        jar="/home/ravi/.android/build-cache/0bda3995c04b2ef0e7623fd55b41da491a64fcf2/output/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="27.0.1"
+        sha1="cddcd0fb93bc70e27325f2f715b2710332004ebb">
+        <dex dex="/home/ravi/AndroidStudioProjects/CameraTest/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_d3c8638114dee16c4e0ebd7ab6449c04c01aabdb/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/ravi/AndroidStudioProjects/CameraTest/app/build/intermediates/incremental-runtime-classes/debug/instant-run.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="27.0.1"
+        sha1="3be78ebc2706b2e1fe2f12d5726887a92d6c183b">
+        <dex dex="/home/ravi/AndroidStudioProjects/CameraTest/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run_8cf44457807c9ebab6c99417b816c2b38403f97a/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/ravi/.android/build-cache/7f74a4ff8f989fdb253fe36c4c53f9f15349001c/output/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="27.0.1"
+        sha1="c4f45092eee6cdf1a5dbd597b2b6819be652ce2e">
+        <dex dex="/home/ravi/AndroidStudioProjects/CameraTest/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_e8cab92ad49f34a316691e7efc62fdfa0e763e69/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/ravi/.android/build-cache/c7a06ca75caa1cb266c896e0924168648cdf3147/output/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="27.0.1"
+        sha1="6a022bf00ccd0948a8180c505e8e458bbddd43a6">
+        <dex dex="/home/ravi/AndroidStudioProjects/CameraTest/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_fb5bf87d946a94d64ef21b2d15217aa0e38d68b5/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/ravi/AndroidStudioProjects/CameraTest/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="27.0.1"
+        sha1="de418614ea2c32a9aa73019d5706f23680faebe5">
+        <dex dex="/home/ravi/AndroidStudioProjects/CameraTest/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run-bootstrap_7f991479a2a4c747d610ec163cf4d8282620a30a/classes.dex" />
+    </item>
+
+</items>
