@@ -11,6 +11,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -124,9 +125,16 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
+        Log.d("In result ", String.valueOf(resultCode));
         //getting the image captured from camera
-        Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
-        imageFromCam.setImageBitmap(thumbnail);
+        if (resultCode!=0){
+            Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
+            imageFromCam.setImageBitmap(thumbnail);
+        } else {
+            Snackbar.make(mLayout,
+                    "No image captured.",
+                    Snackbar.LENGTH_SHORT).show();
+        }
 
     }
 
