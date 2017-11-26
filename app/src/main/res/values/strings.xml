@@ -2,4 +2,5 @@
     <string name="app_name">CameraTest</string>
 
     <string name="open_defCamera">Open Default Camera</string>
+    <string name="open_gallery">Open Gallery</string>
 </resources>

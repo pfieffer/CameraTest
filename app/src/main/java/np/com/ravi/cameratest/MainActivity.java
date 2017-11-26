@@ -5,9 +5,11 @@ import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.hardware.Camera;
+import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
@@ -28,11 +30,15 @@ import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity implements ActivityCompat.OnRequestPermissionsResultCallback {
 
-    private Button openDefCameraButton;
+    private Button openDefCameraButton, openGalleryButton;
     private ImageView imageFromCam;
 
+    //for camera permission
     private static final int PERMISSION_REQUEST_CAMERA = 0;
-    //private static final int PERMISSION_REQUEST_
+
+    //gor gallery image select
+    private static final int SELECT_PICTURE = 1;
+
     private View mLayout;
 
 
@@ -43,6 +49,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         mLayout = findViewById(R.id.main_layout);
 
         openDefCameraButton = (Button) findViewById(R.id.button_def_camera);
+        openGalleryButton = (Button) findViewById(R.id.button_open_gallery);
         imageFromCam = (ImageView) findViewById(R.id.imageView);
 
         openDefCameraButton.setOnClickListener(new View.OnClickListener() {
@@ -51,9 +58,23 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
                 showCameraPreview();
             }
         });
+
+        openGalleryButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setType("image/*");
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(Intent.createChooser(intent,
+                        "Select Picture"), SELECT_PICTURE);
+            }
+        });
+
+
     }
 
     private void showCameraPreview() {
+        Log.d("IN ", " onCameraPreview");
         // Check if the Camera permission has been granted
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
                 == PackageManager.PERMISSION_GRANTED) {
@@ -73,6 +94,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
     }
 
     private void requestCameraPermission() {
+        Log.d("IN ", "requestCameraPermission");
         // Permission has not been granted and must be requested.
         if (ActivityCompat.shouldShowRequestPermissionRationale(this,
                 Manifest.permission.CAMERA)) {
@@ -89,21 +111,20 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
                             PERMISSION_REQUEST_CAMERA);
                 }
             }).show();
+        } else {
+            Snackbar.make(mLayout,
+                    "Permission is not available. Requesting camera permission.",
+                    Snackbar.LENGTH_SHORT).show();
+            // Request the permission. The result will be received in onRequestPermissionResult().
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA},
+                    PERMISSION_REQUEST_CAMERA);
         }
-
-//        } else {
-//            Snackbar.make(mLayout,
-//                    "Permission is not available. Requesting camera permission.",
-//                    Snackbar.LENGTH_SHORT).show();
-//            // Request the permission. The result will be received in onRequestPermissionResult().
-//            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA},
-//                    PERMISSION_REQUEST_CAMERA);
-//        }
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         //super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        Log.d("IN", " onRequestPermissionResult");
         switch (requestCode) {
             case PERMISSION_REQUEST_CAMERA: {
                 // If request is cancelled, the result arrays are empty.
@@ -122,13 +143,11 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
                             "Permission is not available.",
                             Snackbar.LENGTH_SHORT).show();
                 }
-                return;
+                //return;
             }
 
             // other 'case' lines to check for other
             // permissions this app might request
-                //case PERMIS
-
         }
 
     }
@@ -138,27 +157,41 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         super.onActivityResult(requestCode, resultCode, data);
 
         Log.d("In result ", String.valueOf(resultCode));
-        //getting the image captured from camera
-        if (resultCode!=0){
-            Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
-            //imageFromCam.setImageBitmap(thumbnail);
+        if (requestCode == SELECT_PICTURE && resultCode == RESULT_OK && data != null && data.getData() != null) {
+            Uri uri = data.getData();
 
+            try {
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
+                //Log.d(TAG, String.valueOf(bitmap));
+                Log.d("URI ", String.valueOf(uri));
+                imageFromCam.setVisibility(View.VISIBLE);
+                imageFromCam.setImageBitmap(bitmap);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else if (requestCode == PERMISSION_REQUEST_CAMERA && resultCode == RESULT_OK ){
+            //imageFromCam.setImageBitmap(thumbnail);
+            Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
             String s = saveFileToStorage(thumbnail); //save file to storage
             System.out.println(s);
+            imageFromCam.setVisibility(View.VISIBLE);
             getFileFromStorage(s); //get file from storage using the directory string
+
         } else {
+            imageFromCam.setVisibility(View.GONE);
             Snackbar.make(mLayout,
-                    "No image captured.",
+                    "No image selected.",
                     Snackbar.LENGTH_SHORT).show();
         }
-
     }
+
+
 
     private void getFileFromStorage(String path) {
         try {
             File f=new File(path, "profile.jpg");
             Bitmap b = BitmapFactory.decodeStream(new FileInputStream(f));
-
+            //set image to the imageview
             imageFromCam.setImageBitmap(b);
         }
         catch (FileNotFoundException e)

@@ -14,9 +14,17 @@
         android:layout_height="wrap_content"
         android:text="@string/open_defCamera"/>
 
+    <Button
+        android:id="@+id/button_open_gallery"
+        android:layout_below="@+id/button_def_camera"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/open_gallery"/>
+
     <ImageView
         android:id="@+id/imageView"
-        android:layout_below="@id/button_def_camera"
+        android:layout_below="@id/button_open_gallery"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
